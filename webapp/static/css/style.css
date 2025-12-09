@@ -1,0 +1,281 @@
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css');
+
+/* === БАЗОВЫЕ ПЕРЕМЕННЫЕ === */
+:root {
+  --bg: #f4f5f7;
+  --card-bg: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #555;
+  --accent: #2563eb;
+}
+[data-theme="dark"] {
+  --bg: #0f0f10;
+  --card-bg: #1c1c1e;
+  --text: #eee;
+  --text-muted: #aaa;
+  --accent: #3b82f6;
+}
+
+/* === ГЛОБАЛЬНО === */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.app-header {
+  background: var(--card-bg);
+  border-bottom: 1px solid rgba(100,100,100,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.app-header h1 {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+/* === КНОПКИ === */
+.tab-btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-btn:hover { background: rgba(0,0,0,0.05); }
+.tab-btn.active {
+  background: var(--accent);
+  color: white;
+}
+
+/* === ОБЩИЕ СТИЛИ === */
+.section-title { font-weight: 600; margin-bottom: 8px; }
+
+.card, .info-card, .profile-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 16px;
+  transition: background 0.3s;
+}
+.profile-card > div { display: flex; flex-direction: column; min-width: 0; }
+
+.profile-card .editable {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  min-width: 0;
+}
+.profile-card .editable#userUsername {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+/* ensure text truncates instead of overflowing on small screens */
+.profile-card .editable, .welcome-card h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.editable {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  appearance: none;
+  -webkit-appearance: none;
+  pointer-events: none; /* чтобы нельзя было случайно выделять */
+}
+
+.profile-card .avatar-lg { flex: 0 0 auto; }
+/* small-screen tweak */
+@media (max-width: 420px) {
+  .profile-card { align-items: flex-start; gap: 10px; }
+  .profile-card > div { width: calc(100% - 72px); }
+}
+
+.avatar-lg {
+  width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--accent);
+  object-fit: cover;
+}
+
+.input {
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 14px;
+}
+.input:focus { border-color: var(--accent); outline: none; }
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-primary:hover { filter: brightness(1.1); }
+
+/* === ДОПОЛНИТЕЛЬНО === */
+.welcome-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-btn {
+  background: var(--accent);
+  color: white;
+  border-radius: 14px;
+  padding: 16px 0;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s;
+}
+.quick-btn:hover { filter: brightness(1.1); }
+
+/* === КАЛЕНДАРЬ === */
+#calendar {
+  display: flex;
+  flex-direction: column; /* важно: колонки, чтобы слоты были под датами */
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 0;
+}
+
+#calendar .days-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+}
+.day-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 8px;
+  min-width: 80px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.day-card:hover { background: rgba(0,0,0,0.05); }
+.day-card.active { border-color: var(--accent); }
+
+/* === ФУТЕР === */
+.app-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 10px;
+  border-top: 1px solid rgba(100,100,100,0.1);
+  background: var(--card-bg);
+}
+
+.tab {
+  padding: 1rem;
+}
+
+.day {
+  min-width: 84px;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.slots-block {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+.slots-block.show {
+  max-height: 1000px; /* достаточно для всех слотов */
+  opacity: 1;
+}
+
+section {
+  margin-top: 2rem;
+}
+
+.slot-button {
+  min-width: 100px;
+}
+.slot-button.free {
+  background: #16a34a;
+  color: white;
+}
+.slot-button.occ {
+  background: #dc2626;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.day.selected {
+  border: 2px solid var(--accent, #2563eb);
+}
+
+/* === Profile name & username fix (универсально для телефона и ПК) === */
+#userName.editable {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--tg-theme-text-color, #fff);
+  background: transparent !important;
+  border: none !important;
+  outline: none;
+  box-shadow: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  pointer-events: none;
+}
+
+#userUsername.editable {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--tg-theme-hint-color, #aaa);
+  background: transparent !important;
+  border: none !important;
+  outline: none;
+  box-shadow: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  pointer-events: none;
+}
+
+/* Для одинакового поведения в Telegram Desktop */
+input.editable[type="text"] {
+  background-color: transparent !important;
+  color: inherit !important;
+  border: none !important;
+  box-shadow: none !important;
+}

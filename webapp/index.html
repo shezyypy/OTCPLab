@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>3D Printer MiniApp</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body class="transition-colors duration-300 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col" data-theme="light">
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm py-4 mb-8">
+    <div class="container mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <h1 class="text-2xl font-bold">3D-принтер</h1>
+      <nav id="tabs" class="flex flex-wrap justify-center gap-3">
+        <button data-tab="home" class="tab-btn active">Главная</button>
+        <button data-tab="library" class="tab-btn">Библиотека</button>
+        <button data-tab="booking" class="tab-btn">Календарь</button>
+        <button data-tab="account" class="tab-btn">Личный кабинет</button>
+        <button data-tab="admin" id="adminTab" class="tab-btn">Админ</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="flex-grow container mx-auto px-6 py-8 space-y-12">
+
+    <!-- Главная -->
+    <section id="home" class="tab active space-y-8">
+      <div class="welcome-card flex items-center gap-4 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+        <img id="welcomeAvatar" src="/static/img/default-avatar.png" class="avatar-lg" alt="user avatar">
+        <div>
+          <h2 id="welcomeName" class="text-2xl font-semibold">Привет, Гость!</h2>
+          <p class="text-gray-500 dark:text-gray-400 ">Добро пожаловать в лабораторию 3D-печати!</p>
+        </div>
+      </div>
+
+      <div class="info-card bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+        <h3 class="font-semibold mb-3 text-lg">О проекте</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+          Здесь ты можешь забронировать время для 3D-печати, загрузить свои модели
+          и изучать модели единомышленников. Всё просто и удобно 👇
+        </p>
+      </div>
+    </section>
+
+    <!-- Библиотека -->
+    <section id="library" class="tab space-y-8">
+      <h2 class="section-title text-2xl font-bold mb-4">Библиотека моделей</h2>
+      <div id="models" class="space-y-4 mb-8"></div>
+
+      <div class="card bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+        <h3 class="font-semibold mb-3 text-lg">Добавить модель</h3>
+        <form id="submitForm" class="space-y-4">
+          <input name="title" placeholder="Название" required class="input w-full" />
+          <input type="file" name="file" accept=".stl,.obj,.zip" required class="input w-full" />
+          <input type="file" name="image" accept="image/*" class="input w-full" />
+          <button type="submit" class="btn-primary w-full py-2">Отправить</button>
+        </form>
+        <div id="submitResult" class="text-sm text-gray-500 mt-3"></div>
+      </div>
+    </section>
+
+    <!-- Календарь -->
+    <section id="booking" class="tab space-y-8">
+      <h2 class="section-title text-2xl font-bold mb-4">Календарь бронирований</h2>
+      <div id="calendar" class="calendar"></div>
+      <div id="slotsContainer" class="mt-6"></div>
+    </section>
+
+    <!-- Личный кабинет -->
+    <section id="account" class="tab space-y-10">
+      <div class="max-w-md mx-auto space-y-8">
+        <div class="profile-card flex items-center gap-4 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+          <label class="relative cursor-pointer">
+            <img id="userAvatar" src="/static/img/default-avatar.png" alt="Avatar" class="avatar-lg hover:opacity-80 transition" />
+            <input type="file" id="avatarInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" />
+          </label>
+          <div>
+            <input id="userName" class="editable text-xl font-semibold bg-transparent border-none focus:outline-none" value="Гость" />
+            <input id="userUsername" class="editable text-gray-500 dark:text-gray-400 bg-transparent border-none focus:outline-none" value="@guest" />
+            <p class="text-xs text-gray-400 mt-2">(нажми, чтобы изменить)</p>
+          </div>
+        </div>
+
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+          <h3 class="font-semibold mb-3 text-lg">Мои бронирования</h3>
+          <div id="myBookings" class="space-y-3"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Админ -->
+    <section id="admin" class="tab space-y-10">
+      <div class="card bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-8">
+        <h2 class="section-title text-2xl font-bold mb-4">Админ-панель</h2>
+
+        <div>
+          <h3 class="font-semibold mb-2 text-lg">Активные бронирования</h3>
+          <div id="adminBookings" class="space-y-3"></div>
+        </div>
+
+        <div>
+          <h3 class="font-semibold mb-2 text-lg">Модерация моделей</h3>
+          <div id="pending" class="space-y-3"></div>
+        </div>
+
+        <div>
+          <h3 class="font-semibold mb-2 text-lg">Пользователи</h3>
+          <div id="usersStats" class="grid grid-cols-2 gap-3 text-sm text-gray-700 dark:text-gray-300"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="app-footer mt-10 py-6 text-center text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
+    © 2025 3D Printer Bot
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+  <script>
+    // ======== Авто-тема + кнопка переключения =========
+    const tg = window.Telegram?.WebApp;
+    const setTheme = (theme) => document.body.setAttribute('data-theme', theme);
+    if (tg && tg.colorScheme) setTheme(tg.colorScheme);
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+  </script>
+</body>
+</html>
