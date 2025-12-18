@@ -24,9 +24,9 @@ from db import (
 
 from octoprint import send_to_printer
 
-BOT_TOKEN = "8397800534:AAEHn0aJwKQ_MmP4lKiAnzrzBQAq_t3GBQc"
-WEBAPP_URL = "https://nonconflicting-overcaustically-zelda.ngrok-free.dev"
-ADMIN_IDS = [1127824573]
+BOT_TOKEN = ""
+WEBAPP_URL = ""
+ADMIN_IDS = []
 
 BASE_DIR = Path(__file__).parent
 UPLOADS_MODELS = BASE_DIR / "uploads" / "models"
