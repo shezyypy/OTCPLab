@@ -160,7 +160,7 @@ body {
 /* === КАЛЕНДАРЬ === */
 #calendar {
   display: flex;
-  flex-direction: column; /* важно: колонки, чтобы слоты были под датами */
+  flex-direction: column;
   align-items: center;
   gap: 12px;
   width: 100%;
@@ -168,14 +168,6 @@ body {
   padding: 6px 0;
 }
 
-#calendar .days-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-}
-}
 .day-card {
   background: var(--card-bg);
   border: 1px solid rgba(0,0,0,0.1);
@@ -189,7 +181,6 @@ body {
 .day-card:hover { background: rgba(0,0,0,0.05); }
 .day-card.active { border-color: var(--accent); }
 
-/* === ФУТЕР === */
 .app-footer {
   text-align: center;
   font-size: 0.75rem;
@@ -219,7 +210,7 @@ body {
 }
 
 .slots-block.show {
-  max-height: 1000px; /* достаточно для всех слотов */
+  max-height: 1000px;
   opacity: 1;
 }
 
@@ -243,39 +234,4 @@ section {
 
 .day.selected {
   border: 2px solid var(--accent, #2563eb);
-}
-
-/* === Profile name & username fix (универсально для телефона и ПК) === */
-#userName.editable {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--tg-theme-text-color, #fff);
-  background: transparent !important;
-  border: none !important;
-  outline: none;
-  box-shadow: none !important;
-  appearance: none;
-  -webkit-appearance: none;
-  pointer-events: none;
-}
-
-#userUsername.editable {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--tg-theme-hint-color, #aaa);
-  background: transparent !important;
-  border: none !important;
-  outline: none;
-  box-shadow: none !important;
-  appearance: none;
-  -webkit-appearance: none;
-  pointer-events: none;
-}
-
-/* Для одинакового поведения в Telegram Desktop */
-input.editable[type="text"] {
-  background-color: transparent !important;
-  color: inherit !important;
-  border: none !important;
-  box-shadow: none !important;
 }

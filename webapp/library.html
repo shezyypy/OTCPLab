@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Библиотека моделей | 3D-принтер</title>
+
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Favicon -->
+    <link rel="icon" href="data:," />
+
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-all duration-300">
+
+<header class="app-header sticky top-0 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-lg border-b border-gray-200 dark:border-gray-700 py-4 mb-6">
+    <div class="container mx-auto px-6 flex items-center justify-between">
+        <h1 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500">3D-принтер</h1>
+
+        <nav class="flex items-center gap-1 bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-inner">
+            <a href="/" class="px-5 py-2 rounded-full text-sm font-medium transition hover:bg-gray-300 dark:hover:bg-gray-600">Главная</a>
+            <span class="px-5 py-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold shadow-md">Библиотека</span>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-grow container mx-auto px-6 py-8 space-y-10">
+
+    <section class="space-y-8 max-w-4xl mx-auto">
+        <div class="text-center mb-6">
+            <h2 class="text-3xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-100 dark:to-gray-300">
+                Библиотека 3D-моделей
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 text-sm md:text-base">
+                Исследуйте и загружайте готовые модели для печати — или добавьте свою!
+            </p>
+        </div>
+
+        <div id="models" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"></div>
+
+        <div class="card bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+            <h3 class="font-bold text-xl mb-4 text-center text-gray-800 dark:text-gray-200 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Добавить модель
+            </h3>
+
+            <form id="submitForm" class="space-y-5" enctype="multipart/form-data">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Название</label>
+                    <input name="title" placeholder="Введите название модели" required class="input w-full focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 rounded-xl" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Файл модели (.stl, .obj, .zip)</label>
+                    <input type="file" name="file" accept=".stl,.obj,.zip" required class="input w-full file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-100 file:text-blue-700 file:font-medium hover:file:bg-blue-200 dark:file:bg-blue-900 dark:file:text-blue-200 dark:hover:file:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-xl" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Превью (изображение)</label>
+                    <input type="file" name="image" accept="image/*" class="input w-full file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 dark:file:bg-gray-700 dark:file:text-gray-300 dark:hover:file:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-xl" />
+                </div>
+
+                <button type="submit" class="btn-primary group w-full py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transform transition hover:-translate-y-0.5">
+                    🚀 Отправить модель
+                </button>
+            </form>
+
+            <div id="submitResult" class="text-sm text-center text-gray-500 dark:text-gray-400 mt-4 italic"></div>
+        </div>
+    </section>
+</main>
+
+<footer class="app-footer mt-auto py-6 text-center text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+    <div class="container mx-auto px-6">
+        <p>© 2025 <span class="font-semibold text-gray-700 dark:text-gray-300">3D Printer Bot</span> — Создавайте, печатайте, вдохновляйтесь.</p>
+    </div>
+</footer>
+
+<script src="/static/js/app.js?v=2"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.loadModels) loadModels();
+    if (typeof initSubmitForm === "function") initSubmitForm();
+    if (typeof initTheme === "function") initTheme();
+});
+</script>
+
+</body>
+</html>
